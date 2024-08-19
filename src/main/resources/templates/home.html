@@ -1,20 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" th:replace="~{base :: parent(~{::#content}, ~{::title}, ~{::script})}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />
-    <link rel="stylesheet" data-th-href="@{'/css/output.css'}" />
+    <title>Home</title>
 </head>
 <body>
-    <div class="container">
-        <h1 data-th-text="${name}">Welcome to home page</h1>
-        <p>This is home page</p>
-        <p>Youtube Channel : <span th:text="${youtubeChannel}"></span></p>
-        <p>Github Repo : <span th:text="${githubUsername}"></span></p>
-        <a th:href="${gitHubRepo}">Click here to open</a>
+    <div id = "content">
+        <h1>This is home page</h1>
+        <p>This is all about home</p>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
+    <script>
+        console.log("home page");
+    </script>
 </body>
 </html>
