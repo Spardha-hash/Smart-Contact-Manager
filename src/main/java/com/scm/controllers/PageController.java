@@ -1,11 +1,21 @@
 package com.scm.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.scm.entities.User;
+import com.scm.forms.UserForm;
+import com.scm.services.UserService;
 
 @Controller
 public class PageController {
+    @Autowired
+    private UserService userService;
+
     @RequestMapping("/home")
     public String home(Model model){
         System.out.println("Home Page Controller");
@@ -37,8 +47,33 @@ public class PageController {
     }
 
     @RequestMapping("/register")
-    public String registerPage(){
+    public String registerPage(Model model){
+        UserForm userForm = new UserForm();
+        model.addAttribute("userForm", userForm);
         return "register";
+    }
+    @RequestMapping(value = "/do-register", method = RequestMethod.POST)
+    public String processRegister(@ModelAttribute UserForm userForm){
+        System.out.println("Process registration");
+        System.out.println(userForm);
+        // User user = User.builder()
+        // .name(userForm.getName())
+        // .email(userForm.getEmail())
+        // .password(userForm.getEmail())
+        // .about(userForm.getAbout())
+        // .phoneNumber(userForm.getPhoneNumber())
+        // .profilePic("https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg")
+        // .build();
+        User user = new User();
+        user.setName(userForm.getName());
+        user.setEmail(userForm.getEmail());
+        user.setPassword(userForm.getPassword());
+        user.setAbout(userForm.getAbout());
+        user.setPhoneNumber(userForm.getPhoneNumber());
+        user.setProfilePic("https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg");
+        User savedUser = userService.saveUser(user);
+        System.out.println("User saved ");
+        return "redirect:/register";
     }
 
 }
