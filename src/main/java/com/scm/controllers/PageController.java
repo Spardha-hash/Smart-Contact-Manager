@@ -9,7 +9,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.scm.entities.User;
 import com.scm.forms.UserForm;
+import com.scm.helpers.Message;
+import com.scm.helpers.MessageType;
 import com.scm.services.UserService;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class PageController {
@@ -53,7 +57,7 @@ public class PageController {
         return "register";
     }
     @RequestMapping(value = "/do-register", method = RequestMethod.POST)
-    public String processRegister(@ModelAttribute UserForm userForm){
+    public String processRegister(@ModelAttribute UserForm userForm, HttpSession session){
         System.out.println("Process registration");
         System.out.println(userForm);
         // User user = User.builder()
@@ -73,6 +77,9 @@ public class PageController {
         user.setProfilePic("https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg");
         User savedUser = userService.saveUser(user);
         System.out.println("User saved ");
+
+        Message message = Message.builder().content("Registration Successful!!").type(MessageType.green).build();
+        session.setAttribute("message", message);
         return "redirect:/register";
     }
 
